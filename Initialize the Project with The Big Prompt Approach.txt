@@ -1,0 +1,157 @@
+Exercise: Getting Started with Claude Code & Building Your First Application
+Prerequisites
+Basic familiarity with command line/terminal
+
+If you need help, open 
+Claude
+ and prompt it with: "Teach me how to use the command line on my system. Ask me one question at a time or tell me one step at a time what to do. What is the first question or step?"
+
+Node.js installed on your system (
+https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+)
+
+If you need help, open 
+Claude
+ and prompt it with: "Help me install NodeJS and NPM. Ask me one question at a time or tell me one step at a time what to do. What is the first question or step?"
+
+Git installed and configured
+
+If you need help, open 
+Claude
+ and prompt it with: "Help me install the Git CLI. Ask me one question at a time or tell me one step at a time what to do. What is the first question or step?"
+
+Part 1: Installing Claude Code
+Step 1: Installation
+To get access to Claude Code:
+
+Get Access: Visit 
+claude.ai/code
+ to sign up for a subscription that includes Claude Code or get an API key to pay for usage
+
+Install via npm (once you have access): npm install -g @anthropic-ai/claude-code
+
+Verify Installation:Claude --version
+
+Step 2: First Launch
+Create a new project directory: mkdir expense-tracker-ai 
+
+Change to the project directory:  cd expense-tracker-ai
+
+Launch Claude Code:Claude
+
+First-time setup: Claude will prompt you to authenticate and set up basic permissions.
+
+Part 2: Understanding the Interface
+Key Interface Elements
+When you launch Claude Code, you'll see:
+
+Prompt input: Where you type your instructions
+
+Tool permission requests: Claude will ask before running commands
+
+File operations: You'll see real-time file creation and editing
+
+Todo updates: Claude explains what it's doing as it works
+
+Essential Commands
+/init: Initialize a CLAUDE.md file for your project (when there is an existing project)
+
+/permissions: Manage tool permissions
+
+/clear: Clear conversation history
+
+/help: Show available commands
+
+Slash commands: Type / to see all available commands
+
+Part 3: Your First Big Prompt - Building an Expense Tracker
+Step 1: Initialize the Project with The Big Prompt Approach
+Instead of asking Claude to "create a component" or "add a function," we're going to use a big prompt that describes our entire vision. This is the key to leveraging AI as labor rather than just a coding assistant.s
+
+Step 3: Watch Claude Work
+After sending this prompt, Claude will:
+
+Plan the approach: It will outline how it will build the application
+
+Create the project structure: Set up NextJS with TypeScript and Tailwind
+
+Build components: Create all the necessary React components
+
+Implement features: Add all the functionality you requested
+
+Test and verify: Make sure everything works together (it may forget to do this...if so, remind it with something like "please compile and make sure the application runs...")
+
+Important: Claude will ask for permissions to:
+
+Run terminal commands (npm create-next-app, npm install, etc.)
+
+Create and edit files
+
+Install dependencies
+
+Always review what it's asking to do and approve safe operations.
+
+Step 4: Understanding the Output
+As Claude works, pay attention to:
+
+File structure: How it organizes the project
+
+Component architecture: How it breaks down the application
+
+State management: How it handles data flow
+
+Styling approach: How it implements the design
+
+Step 5: Testing Your Application
+Once Claude finishes, it will provide instructions to run the app:
+
+npm run dev
+
+Open your browser to http://localhost:3000 and test.
+
+Stopping the Application: When you're done testing, make sure to stop the development server to free up the port.In your terminal, press Ctrl + C to terminate the process.This ensures port 3000 is not left running in the background.
+
+=======================================================================================================
+
+
+I want you to create a modern, professional NextJS expense tracking application. Here's my vision:
+
+APPLICATION OVERVIEW:
+Build a complete expense tracking web app that helps users manage their personal finances. The app should feel modern, intuitive, and professional.
+
+CORE FEATURES:
+- Add expenses with date, amount, category, and description
+- View expenses in a clean, organized list
+- Filter expenses by date range and category
+- Dashboard with spending summaries and basic analytics
+- Categories: Food, Transportation, Entertainment, Shopping, Bills, Other
+- Data persistence using localStorage for this demo
+
+TECHNICAL REQUIREMENTS:
+- NextJS 14 with App Router
+- TypeScript for type safety
+- Tailwind CSS for styling with a modern, clean design
+- Responsive design that works on desktop and mobile
+- Use React hooks for state management
+- Form validation for expense inputs
+- Date picker for expense dates
+- Currency formatting for amounts
+
+DESIGN REQUIREMENTS:
+- Clean, modern interface with a professional color scheme
+- Intuitive navigation and user experience
+- Visual feedback for user actions
+- Loading states and error handling
+- Mobile-responsive design
+
+SPECIFIC FUNCTIONALITY:
+- Expense form with validation
+- Expense list with search and filter capabilities
+- Summary cards showing total spending, monthly spending, top categories
+- Basic charts or visual representations of spending patterns
+- Export functionality (at least CSV)
+- Delete and edit existing expenses
+
+Please create this as a complete, production-ready application. Set up the project structure, implement all features, and make sure everything works together seamlessly. Focus on creating something that looks professional and that I could actually use to track my expenses.
+
+When you're done, provide instructions on how to run the application and test all features.
