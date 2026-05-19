@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Trash2, Download, Plus } from "lucide-react";
 import { Expense, ExpenseFormData } from "@/types/expense";
-import { exportToCSV } from "@/lib/exportUtils";
+import { exportCSV } from "@/lib/exportUtils";
 import ExpenseItem from "./ExpenseItem";
 import ExpenseFiltersBar from "./ExpenseFilters";
 import Modal from "@/components/ui/Modal";
@@ -91,7 +91,7 @@ export default function ExpenseList({
           <Button
             variant="outline"
             size="sm"
-            onClick={() => exportToCSV(filteredExpenses)}
+            onClick={() => exportCSV(filteredExpenses, `expenses-${new Date().toISOString().split("T")[0]}`)}
             title="Export filtered expenses to CSV"
           >
             <Download size={15} />
