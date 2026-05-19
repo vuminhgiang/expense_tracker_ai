@@ -2,11 +2,11 @@ import { Expense } from "@/types/expense";
 import { formatDate } from "@/lib/utils";
 
 export function exportToCSV(expenses: Expense[]): void {
-  const headers = ["Date", "Amount", "Category", "Description"];
+  const headers = ["Date", "Category", "Amount", "Description"];
   const rows = expenses.map((e) => [
     formatDate(e.date),
-    e.amount.toFixed(2),
     e.category,
+    e.amount.toFixed(2),
     `"${e.description.replace(/"/g, '""')}"`,
   ]);
 
