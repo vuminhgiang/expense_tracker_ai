@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   X, Download, Mail, Table2, HardDrive, Cloud, Link2,
   CheckCircle, XCircle, Clock, RefreshCw, Zap, Copy,
@@ -112,9 +112,22 @@ export default function ExportHub({ isOpen, onClose, expenses }: ExportHubProps)
     return () => window.removeEventListener("keydown", handle);
   }, [isOpen, onClose]);
 
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const copiedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const scheduleSavedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimer.current) clearTimeout(toastTimer.current);
+      if (copiedTimer.current) clearTimeout(copiedTimer.current);
+      if (scheduleSavedTimer.current) clearTimeout(scheduleSavedTimer.current);
+    };
+  }, []);
+
   function showToast(msg: string) {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
     setToast(msg);
-    setTimeout(() => setToast(null), 2400);
+    toastTimer.current = setTimeout(() => setToast(null), 2400);
   }
 
   async function runTemplateExport(tpl: ExportTemplate) {
@@ -200,7 +213,8 @@ export default function ExportHub({ isOpen, onClose, expenses }: ExportHubProps)
     if (!shareLink) return;
     await navigator.clipboard.writeText(shareLink).catch(() => {});
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (copiedTimer.current) clearTimeout(copiedTimer.current);
+    copiedTimer.current = setTimeout(() => setCopied(false), 2000);
     showToast("Link copied to clipboard");
   }
 
@@ -214,7 +228,8 @@ export default function ExportHub({ isOpen, onClose, expenses }: ExportHubProps)
     saveSchedule(updated);
     setSchedule(updated);
     setScheduleSaved(true);
-    setTimeout(() => setScheduleSaved(false), 2000);
+    if (scheduleSavedTimer.current) clearTimeout(scheduleSavedTimer.current);
+    scheduleSavedTimer.current = setTimeout(() => setScheduleSaved(false), 2000);
     showToast("Schedule saved");
   }
 

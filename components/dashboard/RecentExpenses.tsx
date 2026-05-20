@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Expense } from "@/types/expense";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { CATEGORY_ICONS } from "@/lib/constants";
 import Badge from "@/components/ui/Badge";
 
 interface RecentExpensesProps {
@@ -44,13 +45,7 @@ export default function RecentExpenses({ expenses }: RecentExpensesProps) {
             >
               <div className="flex items-center gap-3 min-w-0">
                 <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-base">
-                  {/* category emoji */}
-                  {expense.category === "Food" && "🍔"}
-                  {expense.category === "Transportation" && "🚗"}
-                  {expense.category === "Entertainment" && "🎬"}
-                  {expense.category === "Shopping" && "🛍️"}
-                  {expense.category === "Bills" && "📄"}
-                  {expense.category === "Other" && "📦"}
+                  {CATEGORY_ICONS[expense.category]}
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-gray-900 truncate">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import { Expense } from "@/types/expense";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -22,13 +22,20 @@ export default function ExpenseItem({
   onToggleSelect,
 }: ExpenseItemProps) {
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const confirmTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (confirmTimer.current) clearTimeout(confirmTimer.current);
+    };
+  }, []);
 
   function handleDelete() {
     if (confirmDelete) {
       onDelete(expense.id);
     } else {
       setConfirmDelete(true);
-      setTimeout(() => setConfirmDelete(false), 3000);
+      confirmTimer.current = setTimeout(() => setConfirmDelete(false), 3000);
     }
   }
 

@@ -2,6 +2,15 @@ import { Expense, Category } from "@/types/expense";
 import { formatDate, formatCurrency } from "@/lib/utils";
 import { CATEGORY_ICONS, CATEGORY_COLORS } from "@/lib/constants";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function triggerDownload(content: string, filename: string, mime: string) {
   const blob = new Blob([content], { type: mime });
   const url = URL.createObjectURL(blob);
@@ -57,7 +66,7 @@ export function exportPDF(expenses: Expense[], filename: string, title = "Expens
         <td>${formatDate(e.date)}</td>
         <td><span style="color:${CATEGORY_COLORS[e.category as Category]}">${CATEGORY_ICONS[e.category as Category]} ${e.category}</span></td>
         <td class="num">${formatCurrency(e.amount)}</td>
-        <td>${e.description}</td>
+        <td>${escapeHtml(e.description)}</td>
       </tr>`
     ).join("");
 
