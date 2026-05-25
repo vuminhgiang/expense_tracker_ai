@@ -1,10 +1,13 @@
 "use client";
 
 import { useExpensesContext } from "../providers";
+import { useBudget } from "@/hooks/useBudget";
 import MonthlyInsights from "@/components/dashboard/MonthlyInsights";
+import BudgetPanel from "@/components/dashboard/BudgetPanel";
 
 export default function InsightsPage() {
-  const { expenses, isLoaded } = useExpensesContext();
+  const { expenses, isLoaded, monthlySpending } = useExpensesContext();
+  const { budget } = useBudget();
 
   if (!isLoaded) {
     return (
@@ -18,8 +21,12 @@ export default function InsightsPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto">
-      <MonthlyInsights expenses={expenses} />
+    <div className="max-w-md mx-auto space-y-4">
+      <BudgetPanel monthlySpending={monthlySpending} />
+      <MonthlyInsights
+        expenses={expenses}
+        monthlyBudget={budget?.monthly}
+      />
     </div>
   );
 }
