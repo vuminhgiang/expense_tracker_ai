@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
     "lucide-react": "^0.400.0",
     "next": "^14.2.35",
     "react": "^18",
@@ -19,14 +18,18 @@
     "tailwind-merge": "^2.4.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "jest": "^30.4.2",
+    "playwright": "^1.60.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-jest": "^29.4.11",
     "typescript": "^5"
   }
 }

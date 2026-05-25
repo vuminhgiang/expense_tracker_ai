@@ -18,6 +18,7 @@ export function useExpenses() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [filters, setFilters] = useState<ExpenseFilters>(defaultFilters);
+  const [saveError, setSaveError] = useState(false);
 
   useEffect(() => {
     const loaded = loadExpenses();
@@ -27,7 +28,8 @@ export function useExpenses() {
 
   useEffect(() => {
     if (isLoaded) {
-      saveExpenses(expenses);
+      const ok = saveExpenses(expenses);
+      setSaveError(!ok);
     }
   }, [expenses, isLoaded]);
 
@@ -164,5 +166,6 @@ export function useExpenses() {
     monthlySummaries,
     topCategory,
     chartData,
+    saveError,
   };
 }

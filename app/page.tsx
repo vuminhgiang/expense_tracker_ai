@@ -1,12 +1,18 @@
 "use client";
 
+import { useState } from "react";
+import { Zap } from "lucide-react";
 import { useExpensesContext } from "./providers";
 import SummaryCards from "@/components/dashboard/SummaryCards";
 import SpendingChart from "@/components/dashboard/SpendingChart";
 import CategoryBreakdown from "@/components/dashboard/CategoryBreakdown";
 import RecentExpenses from "@/components/dashboard/RecentExpenses";
+import ExportHub from "@/components/export/ExportHub";
+import Button from "@/components/ui/Button";
 
 export default function DashboardPage() {
+  const [hubOpen, setHubOpen] = useState(false);
+
   const {
     expenses,
     isLoaded,
@@ -15,7 +21,6 @@ export default function DashboardPage() {
     categorySummaries,
     monthlySummaries,
     topCategory,
-    chartData,
   } = useExpensesContext();
 
   if (!isLoaded) {
@@ -30,27 +35,44 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          Your financial overview at a glance
-        </p>
+    <>
+      <div className="space-y-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-sm text-gray-500 mt-1">
+              Your financial overview at a glance
+            </p>
+          </div>
+          <Button
+            onClick={() => setHubOpen(true)}
+            className="gap-2 bg-slate-900 hover:bg-slate-800 text-white border-0"
+          >
+            <Zap size={15} className="text-amber-400" />
+            Export Hub
+          </Button>
+        </div>
+
+        <SummaryCards
+          totalSpending={totalSpending}
+          monthlySpending={monthlySpending}
+          totalCount={expenses.length}
+          topCategory={topCategory}
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SpendingChart data={monthlySummaries} />
+          <CategoryBreakdown data={categorySummaries} />
+        </div>
+
+        <RecentExpenses expenses={expenses} />
       </div>
 
-      <SummaryCards
-        totalSpending={totalSpending}
-        monthlySpending={monthlySpending}
-        totalCount={expenses.length}
-        topCategory={topCategory}
+      <ExportHub
+        isOpen={hubOpen}
+        onClose={() => setHubOpen(false)}
+        expenses={expenses}
       />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <SpendingChart data={monthlySummaries} />
-        <CategoryBreakdown data={categorySummaries} />
-      </div>
-
-      <RecentExpenses expenses={expenses} />
-    </div>
+    </>
   );
 }

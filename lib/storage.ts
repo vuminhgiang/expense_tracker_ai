@@ -12,12 +12,13 @@ export function loadExpenses(): Expense[] {
   }
 }
 
-export function saveExpenses(expenses: Expense[]): void {
-  if (typeof window === "undefined") return;
+export function saveExpenses(expenses: Expense[]): boolean {
+  if (typeof window === "undefined") return true;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses));
+    return true;
   } catch {
-    console.error("Failed to save expenses to localStorage");
+    return false;
   }
 }
 
