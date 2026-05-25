@@ -146,4 +146,27 @@ describe("computeBudgetStreak", () => {
     ];
     expect(computeBudgetStreak(expenses, "2026-05-05")).toBe(3);
   });
+
+  it("uses monthlyBudget / daysInMonth as daily limit when provided", () => {
+    // monthlyBudget=310, daysInMonth(May)=31, dailyLimit=10
+    // expenses: day1=5, day2=5, day3=15 (over)
+    // today=May4: look back day3=15>10 → streak=0
+    const expenses = [
+      makeExpense({ date: "2026-05-01", amount: 5, category: "Food" }),
+      makeExpense({ date: "2026-05-02", amount: 5, category: "Food" }),
+      makeExpense({ date: "2026-05-03", amount: 15, category: "Food" }),
+    ];
+    expect(computeBudgetStreak(expenses, "2026-05-04", 310)).toBe(0);
+  });
+
+  it("builds a streak using monthlyBudget when all days are under daily limit", () => {
+    // monthlyBudget=310, daysInMonth=31, dailyLimit=10
+    // day1=5≤10 ✓, day2=5≤10 ✓, day3=9≤10 ✓ → streak=3 (today=May4)
+    const expenses = [
+      makeExpense({ date: "2026-05-01", amount: 5, category: "Food" }),
+      makeExpense({ date: "2026-05-02", amount: 5, category: "Food" }),
+      makeExpense({ date: "2026-05-03", amount: 9, category: "Food" }),
+    ];
+    expect(computeBudgetStreak(expenses, "2026-05-04", 310)).toBe(3);
+  });
 });

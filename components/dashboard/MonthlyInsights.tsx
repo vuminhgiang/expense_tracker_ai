@@ -15,6 +15,7 @@ import {
 interface MonthlyInsightsProps {
   expenses: Expense[];
   todayISO?: string;
+  monthlyBudget?: number;
 }
 
 function DonutCenterLabel() {
@@ -46,6 +47,7 @@ function CustomTooltip({
 export default function MonthlyInsights({
   expenses,
   todayISO,
+  monthlyBudget,
 }: MonthlyInsightsProps) {
   const today = todayISO ?? new Date().toISOString().split("T")[0];
   const monthKey = today.substring(0, 7);
@@ -63,8 +65,8 @@ export default function MonthlyInsights({
   );
 
   const streak = useMemo(
-    () => computeBudgetStreak(expenses, today),
-    [expenses, today]
+    () => computeBudgetStreak(expenses, today, monthlyBudget),
+    [expenses, today, monthlyBudget]
   );
 
   const isEmpty = monthExpenses.length === 0;

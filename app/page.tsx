@@ -7,6 +7,7 @@ import SummaryCards from "@/components/dashboard/SummaryCards";
 import SpendingChart from "@/components/dashboard/SpendingChart";
 import CategoryBreakdown from "@/components/dashboard/CategoryBreakdown";
 import RecentExpenses from "@/components/dashboard/RecentExpenses";
+import BudgetPanel from "@/components/dashboard/BudgetPanel";
 import ExportHub from "@/components/export/ExportHub";
 import Button from "@/components/ui/Button";
 
@@ -60,8 +61,14 @@ export default function DashboardPage() {
           topCategory={topCategory}
         />
 
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <SpendingChart data={monthlySummaries} />
+          </div>
+          <BudgetPanel monthlySpending={monthlySpending} />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <SpendingChart data={monthlySummaries} />
           <CategoryBreakdown data={categorySummaries} />
         </div>
 

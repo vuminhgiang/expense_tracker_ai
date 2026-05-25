@@ -52,7 +52,11 @@ function isoDateStr(year: number, month1: number, day: number): string {
   return `${year}-${String(month1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
-export function computeBudgetStreak(expenses: Expense[], todayISO: string): number {
+export function computeBudgetStreak(
+  expenses: Expense[],
+  todayISO: string,
+  monthlyBudget?: number
+): number {
   const [year, month1, day] = todayISO.split("-").map(Number);
   const dayOfMonth = day;
 
@@ -61,7 +65,11 @@ export function computeBudgetStreak(expenses: Expense[], todayISO: string): numb
   const monthKey = todayISO.substring(0, 7);
   const monthExpenses = expenses.filter((e) => e.date.startsWith(monthKey));
   const monthTotal = monthExpenses.reduce((s, e) => s + e.amount, 0);
-  const dailyAvg = monthTotal / dayOfMonth;
+
+  const daysInMonth = new Date(year, month1, 0).getDate();
+  const dailyAvg = monthlyBudget != null
+    ? monthlyBudget / daysInMonth
+    : monthTotal / dayOfMonth;
 
   if (dailyAvg === 0) return 0;
 
