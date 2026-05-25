@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, List, Plus, Wallet } from "lucide-react";
+import { LayoutDashboard, List, Plus, Wallet, BarChart2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/expenses", label: "Expenses", icon: List },
+  { href: "/insights", label: "Insights", icon: BarChart2 },
 ];
 
 interface NavbarProps {
