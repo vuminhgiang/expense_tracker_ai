@@ -1,15 +1,17 @@
 "use client";
 
-import { TrendingUp, TrendingDown, DollarSign, Calendar, Tag, Receipt } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, DollarSign, Calendar, Tag, Receipt } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { Category } from "@/types/expense";
 import { CATEGORY_ICONS } from "@/lib/constants";
+import { MonthTrend } from "@/lib/dashboard";
 
 interface SummaryCardsProps {
   totalSpending: number;
   monthlySpending: number;
   totalCount: number;
   topCategory: { category: Category; total: number; percentage: number } | null;
+  monthTrend?: MonthTrend | null;
 }
 
 interface CardProps {
@@ -19,7 +21,7 @@ interface CardProps {
   icon: React.ReactNode;
   iconBg: string;
   iconColor: string;
-  trend?: { value: string; positive: boolean } | null;
+  trend?: { value: string; positive: boolean; icon: React.ReactNode } | null;
 }
 
 function StatCard({ title, value, subtitle, icon, iconBg, iconColor, trend }: CardProps) {
@@ -42,7 +44,7 @@ function StatCard({ title, value, subtitle, icon, iconBg, iconColor, trend }: Ca
               trend.positive ? "text-emerald-600" : "text-red-500"
             }`}
           >
-            {trend.positive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+            {trend.icon}
             {trend.value}
           </div>
         </div>
@@ -56,8 +58,27 @@ export default function SummaryCards({
   monthlySpending,
   totalCount,
   topCategory,
+  monthTrend,
 }: SummaryCardsProps) {
   const avgPerExpense = totalCount > 0 ? totalSpending / totalCount : 0;
+
+  const trendProp = monthTrend
+    ? {
+        value:
+          monthTrend.direction === "flat"
+            ? "Same as last month"
+            : `${monthTrend.changePct.toFixed(1)}% vs last month`,
+        positive: monthTrend.direction !== "up",
+        icon:
+          monthTrend.direction === "up" ? (
+            <TrendingUp size={12} />
+          ) : monthTrend.direction === "down" ? (
+            <TrendingDown size={12} />
+          ) : (
+            <Minus size={12} />
+          ),
+      }
+    : null;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
@@ -76,6 +97,7 @@ export default function SummaryCards({
         icon={<Calendar size={20} />}
         iconBg="bg-violet-50"
         iconColor="text-violet-600"
+        trend={trendProp}
       />
       <StatCard
         title="Avg per Expense"
